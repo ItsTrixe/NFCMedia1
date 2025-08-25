@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Videoer · NFCMedia</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">NFCMEDIA.DK</a>
+      <nav class="nav">
+        <a href="index.html">HOME</a>
+        <a href="videoer.html" class="active">VIDEOER</a>
+        <a href="billeder.html">BILLEDER</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 class="page-title">VIDEOER</h1>
+
+    <!-- Brug KORREKT YouTube embed (iframe med /embed/VIDEO_ID) -->
+    <div class="video-grid">
+      <!-- Erstat VIDEO_ID med dit ID, fx: https://www.youtube.com/watch?v=abc123  -> ID = abc123 -->
+      <div class="video-card">
+        <iframe
+          src="https://www.youtube.com/embed/Rr6Sm2m8QLA"
+          title="YouTube video"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+	  
+	     <div class="video-card">
+        <iframe
+          src="https://www.youtube.com/embed/EQTkL1vku9k"
+          title="YouTube video"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+	  
+	   <div class="video-card">
+        <iframe
+          src="https://www.youtube.com/embed/fKV5XV1Us0s"
+          title="YouTube video"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+
+  		<div class="video-card">
+        <iframe
+          src="https://www.youtube.com/embed/oRl7m2cbEY0"
+          title="YouTube video"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+	  
+	  <div class="video-card">
+        <iframe
+          src="https://www.youtube.com/embed/mO4tlnoynes"
+          title="YouTube video"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+	  
+	   <div class="video-card">
+        <iframe
+          src="https://www.youtube.com/embed/RZTrLHDFcYY"
+          title="YouTube video"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+	  
+	  <div class="video-card">
+        <iframe
+          src="https://www.youtube.com/embed/tRPYBViCgCQ"
+          title="YouTube video"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+	  
+	  <div class="video-card">
+        <iframe
+          src="https://www.youtube.com/embed/Ac3BZobX5DE"
+          title="YouTube video"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+	 
+	  <div class="video-card">
+        <iframe
+          src="https://www.youtube.com/embed/ApIdRnmM_ag"
+          title="YouTube video"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+	  
+	   <div class="video-card">
+        <iframe
+          src="https://www.youtube.com/embed/Yg_17rIZcHk"
+          title="YouTube video"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+	  
+	  <div class="video-card">
+        <iframe
+          src="https://www.youtube.com/embed/wL77us-R4gM"
+          title="YouTube video"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+
+      <!-- Flere videoer… kopier blokken ovenfor -->
+    </div>
+
+    <!-- Alternativ (cookie-light): 
+    <iframe src="https://www.youtube-nocookie.com/embed/VIDEO_ID" ... ></iframe>
+    -->
+
+    <!-- Lokal mp4 hvis du ikke vil bruge YouTube:
+    <div class="video-card">
+      <video controls>
+        <source src="assets/minvideo.mp4" type="video/mp4">
+      </video>
+    </div>
+    -->
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">© <span id="year"></span> NFCMedia</div>
+  </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
