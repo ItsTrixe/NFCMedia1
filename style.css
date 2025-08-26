@@ -106,3 +106,42 @@ body{
 
 /* HERO fallback til billede */
 .hero.hero--image{background:url('assets/hero.jpg') center/cover no-repeat}
+
+/* Lightbox */
+.lb{
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.9);
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none;
+  transition:opacity .18s ease; z-index:1000;
+}
+.lb.is-open{ opacity:1; pointer-events:auto; }
+
+.lb__img{
+  max-width:min(92vw,1600px);
+  max-height:90vh;
+  box-shadow:0 10px 40px rgba(0,0,0,.6);
+  border-radius:4px;
+}
+
+.lb__btn{
+  position:absolute; top:50%; transform:translateY(-50%);
+  background:rgba(255,255,255,.12); color:#fff; border:0;
+  width:46px; height:46px; border-radius:999px;
+  font-size:28px; line-height:46px; text-align:center;
+  cursor:pointer; user-select:none;
+}
+.lb__btn:hover{ background:rgba(255,255,255,.22); }
+.lb__close{ top:24px; right:24px; transform:none; font-size:30px; }
+.lb__prev{ left:24px; }
+.lb__next{ right:24px; }
+
+/* Hover-effekt på billeder i galleriet */
+.photo-grid img {
+  position: relative;
+  transition: filter 0.25s ease;
+}
+
+.photo-grid img:hover {
+  filter: brightness(75%);
+}
