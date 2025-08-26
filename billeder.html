@@ -62,5 +62,72 @@
     <div class="container">© <span id="year"></span> NFCMedia</div>
   </footer>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <!-- Lightbox -->
+<div id="lightbox" class="lb" aria-hidden="true">
+  <button class="lb__btn lb__close" aria-label="Luk (Esc)">×</button>
+  <button class="lb__btn lb__prev" aria-label="Forrige">‹</button>
+  <img class="lb__img" alt="">
+  <button class="lb__btn lb__next" aria-label="Næste">›</button>
+</div>
+
+<script>
+(() => {
+  const thumbs = [...document.querySelectorAll('.photo-grid img, .photo-grid picture img')];
+  if (!thumbs.length) return;
+
+  const lb = document.getElementById('lightbox');
+  const img = lb.querySelector('.lb__img');
+  const btnClose = lb.querySelector('.lb__close');
+  const btnPrev = lb.querySelector('.lb__prev');
+  const btnNext = lb.querySelector('.lb__next');
+
+  let idx = 0;
+  const fullSrc = el => el.dataset.full || el.src;
+
+  function open(i){
+    idx = i;
+    img.src = fullSrc(thumbs[idx]);
+    lb.classList.add('is-open');
+    lb.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+  }
+  function close(){
+    lb.classList.remove('is-open');
+    lb.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+    img.src = '';
+  }
+  function next(n=1){
+    idx = (idx + n + thumbs.length) % thumbs.length;
+    img.src = fullSrc(thumbs[idx]);
+  }
+
+  thumbs.forEach((t,i)=>{
+    t.style.cursor = 'zoom-in';
+    t.addEventListener('click', e => { e.preventDefault(); open(i); });
+  });
+
+  btnClose.addEventListener('click', close);
+  btnPrev.addEventListener('click', () => next(-1));
+  btnNext.addEventListener('click', () => next(1));
+
+  lb.addEventListener('click', e => { if (e.target === lb) close(); });
+
+  window.addEventListener('keydown', e => {
+    if (!lb.classList.contains('is-open')) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowRight') next(1);
+    if (e.key === 'ArrowLeft') next(-1);
+  });
+
+  // Swipe på mobil
+  let sx = 0;
+  img.addEventListener('touchstart', e => sx = e.touches[0].clientX, {passive:true});
+  img.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - sx;
+    if (Math.abs(dx) > 40) next(dx < 0 ? 1 : -1);
+  });
+})();
+</script>
 </body>
 </html>
