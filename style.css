@@ -151,3 +151,37 @@ body{
 .photo-grid img:hover {
   filter: brightness(75%);
 }
+
+/* HERO container */
+.hero { position: relative; }
+
+/* Video-wrapper */
+.hero-video {
+  position: relative;
+  overflow: hidden;
+  min-height: 60vh; /* tilpas efter behov */
+}
+
+/* Hero-højde (prøv 100vh hvis du vil fylde hele skærmen) */
+.hero-video{
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh; /* var 60vh */
+}
+
+/* Selve baggrundsvideoen */
+.hero-video .hero-bg-video{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35% !important; /* flyt fokus lidt op/ned */
+  pointer-events: none;
+}
+
+/* Overlay oven på videoen */
+.hero-overlay {
+  position: relative;
+  z-index: 1;
+}
