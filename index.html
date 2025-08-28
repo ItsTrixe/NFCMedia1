@@ -21,16 +21,16 @@
     </div>
   </header>
 
-  <!-- HERO: næsten fuld skærm, YouTube baggrund -->
+  <!-- HERO: næsten fuld skærm, lokal video baggrund -->
 <section class="hero">
   <div class="hero-video">
-    <iframe 
-      src="https://www.youtube.com/embed/V81JfEmMsNc?autoplay=1&mute=1&controls=0&showinfo=0&loop=1&playlist=V81JfEmMsNc&modestbranding=1"
-      frameborder="0"
-      allow="autoplay; fullscreen"
-      allowfullscreen>
-    </iframe>
+    <video class="hero-bg-video" autoplay muted loop playsinline preload="auto" poster="assets/hero.jpg">
+      <source src="assets/heroweb.mp4" type="video/mp4">
+      Din browser understøtter ikke HTML5 video.
+    </video>
+
     <div class="hero-overlay">
+      <!-- dit overlay-indhold (tekst, knapper osv.) -->
     </div>
   </div>
 </section>
