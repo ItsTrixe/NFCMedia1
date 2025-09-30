@@ -64,7 +64,27 @@
     <div class="container">© <span id="year"></span> NFCMedia</div>
   </footer>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-  <!-- Lightbox -->
+
+	<script>
+/* Sortér .photo-grid efter fotonummer (størst først) */
+(() => {
+  const grid = document.querySelector('.photo-grid');
+  if (!grid) return;
+
+  const items = Array.from(grid.children); // <img> eller <picture>
+
+  function getNumber(el) {
+    const img = el.tagName === 'PICTURE' ? el.querySelector('img') : el;
+    const src = img?.getAttribute('src') || "";
+    const m = src.match(/foto(\d+)\.(?:jpe?g|png|webp)$/i);
+    return m ? parseInt(m[1], 10) : 0;
+  }
+
+  items.sort((a, b) => getNumber(b) - getNumber(a));
+  items.forEach(el => grid.appendChild(el)); // flyt i korrekt rækkefølge
+})();
+</script>
+	<!-- Lightbox -->
 <div id="lightbox" class="lb" aria-hidden="true">
   <button class="lb__btn lb__close" aria-label="Luk (Esc)">×</button>
   <button class="lb__btn lb__prev" aria-label="Forrige">‹</button>
