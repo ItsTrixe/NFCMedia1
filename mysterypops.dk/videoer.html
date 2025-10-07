@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bestil · MysteryPops</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ---- Bestil-side specifik styling ---- */
+    .shop-topbar{
+      display:flex;align-items:center;justify-content:center;gap:18px;
+      background:var(--card, #fff);border:1px solid var(--line);border-radius:10px;
+      padding:10px 14px;margin:14px auto 24px;max-width:980px;box-shadow:0 2px 10px rgba(0,0,0,.04)
+    }
+    .shop-topbar b{letter-spacing:.04em}
+    .cart-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:#fff;cursor:pointer}
+    .cart-pill svg{width:18px;height:18px}
+
+    .product-grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fit, minmax(260px,1fr));}
+    .product-card{
+      background:#0f2730 url('assets/card-bg.jpg') center/cover no-repeat; /* kan slettes/udskiftes */
+      border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.18);overflow:hidden;border:1px solid rgba(0,0,0,.15)
+    }
+    .product-img{aspect-ratio:16/9;width:100%;object-fit:cover;display:block}
+    .product-body{background:#fff;padding:14px}
+    .product-title{margin:0 0 6px;font-weight:800}
+    .product-desc{margin:0 0 12px;opacity:.85;font-size:.95rem}
+    .product-footer{display:flex;align-items:center;justify-content:space-between}
+    .price{font-weight:800;letter-spacing:.04em}
+    .add-btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:#11343f;color:#fff;
+      cursor:pointer;font-weight:800
+    }
+    .add-btn svg{width:18px;height:18px}
+
+    /* Kurv (modal) */
+    .cart-modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;place-items:center;padding:16px}
+    .cart-modal.is-open{display:grid}
+    .cart-panel{
+      width:min(820px,100%);max-height:85vh;overflow:auto;
+      background:var(--card,#fff);border:1px solid var(--line);border-radius:12px;padding:16px 16px 12px
+    }
+    .cart-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+    .cart-items{display:grid;gap:10px;margin:10px 0}
+    .cart-row{display:grid;grid-template-columns:1fr auto auto auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:8px;background:#fff}
+    .qty{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+    .qty button{background:#f7f7f7;border:0;padding:6px 10px;cursor:pointer}
+    .qty input{width:42px;text-align:center;border:0}
+    .cart-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px;flex-wrap:wrap}
+    .btn{appearance:none;border:0;border-radius:999px;padding:12px 16px;font-weight:800;cursor:pointer}
+    .btn-danger{background:#ffe5e5;color:#b00020}
+    .btn-primary{background:#e68bbe;color:#fff}
+    .btn-secondary{background:#f4b8da;color:#2b0f1f}
+    .muted{opacity:.75}
+    .empty{padding:16px;border:1px dashed var(--line);border-radius:8px;text-align:center}
+    .contact-mini{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:8px}
+    .contact-mini input{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">MysteryPops.dk</a>
+      <nav class="nav">
+        <a href="index.html">HJEM</a>
+        <a href="videoer.html" class="active">BESTIL</a>
+        <a href="billeder.html">TIKTOK</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 class="page-title">Bestil</h1>
+
+    <!-- topbar med total og åben kurv -->
+    <div class="shop-topbar">
+      <div><b>Total:</b> <span id="cartTotal">0,00 kr</span> <span class="muted">(inkl. antal: <span id="cartCount">0</span>)</span></div>
+      <button class="cart-pill" type="button" onclick="openCart()">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4h-2l-1 2h2l3.6 7.59-1.35 2.44A2.003 2.003 0 0 0 10 20h10v-2H10l1.1-2h7.45a2 2 0 0 0 1.82-1.18l3.58-8.02A1 1 0 0 0 23 4H7zM7 22a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm11 0a2 2 0 1 0 .001-3.999A2 2 0 0 0 18 22z"/></svg>
+        <b>Se kurv</b>
+      </button>
+    </div>
+	
+	<div class="info-card">
+  <h3 style="margin:0 0 8px">Der er 3 forskellige farver indeni din cake-pop. Der er rød, blå og grøn. De forskellige farver viser hvilken smag du har fået. Farven rød er jordbær, farven blå er blåbær og farven grøn er æble smag.</h3>
+</div>
+
+    <!-- PRODUKTER -->
+    <div id="grid" class="product-grid">
+      <!-- EKSEMPLER – skift gerne titler, priser og billeder -->
+      <article class="product-card" data-id="vivi-single" data-title="MysteryPop1" data-price="249">
+        <img class="product-img" src="assets/menu-MysteryPop1.jpg" alt="MysteryPop1">
+        <div class="product-body">
+          <h3 class="product-title">MysteryPop1 (6 stk)</h3>
+          <p class="product-desc"><b>Maki:</b> 4 alaska ura, 4 california ura qtgqwegtqwegewqeghqwhw4h</p>
+          <div class="product-footer">
+            <div class="price">249,00 Kr</div>
+            <button class="add-btn" type="button" onclick="addFromCard(this)">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M7 4h-2l-1 2h2l3.6 7.59-1.35 2.44A2.003 2.003 0 0 0 10 20h10v-2H10l1.1-2h7.45a2 2 0 0 0 1.82-1.18l3.58-8.02A1 1 0 0 0 23 4H7z"/></svg>
+              Læg i kurv
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card" data-id="vivi-medium" data-title="MysteryPop2" data-price="479">
+        <img class="product-img" src="assets/menu-MysteryPop2.jpg" alt="MysteryPop2">
+        <div class="product-body">
+          <h3 class="product-title">MysteryPop2 (12 stk)</h3>
+          <p class="product-desc"><b>Maki:</b> 4 alaska ura, 4 california ura, 5 salmon futo aegaeghwsehwshswerh</p>
+          <div class="product-footer">
+            <div class="price">479,00 Kr</div>
+            <button class="add-btn" type="button" onclick="addFromCard(this)">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M7 4h-2l-1 2h2l3.6 7.59-1.35 2.44A2.003 2.003 0 0 0 10 20h10v-2H10l1.1-2h7.45a2 2 0 0 0 1.82-1.18l3.58-8.02A1 1 0 0 0 23 4H7z"/></svg>
+              Læg i kurv
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card" data-id="vivi-maki" data-title="MysteryPop3" data-price="949">
+        <img class="product-img" src="assets/menu-MysteryPop3.jpg" alt="MysteryPop3">
+        <div class="product-body">
+          <h3 class="product-title">MysteryPop3 (24 stk)</h3>
+          <p class="product-desc"><b>Maki:</b> 4 alaska ura, 4 california ura, 4 spicy tun, 5 salmon futo aegesgesghweh</p>
+          <div class="product-footer">
+            <div class="price">949,00 Kr</div>
+            <button class="add-btn" type="button" onclick="addFromCard(this)">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M7 4h-2l-1 2h2l3.6 7.59-1.35 2.44A2.003 2.003 0 0 0 10 20h10v-2H10l1.1-2h7.45a2 2 0 0 0 1.82-1.18l3.58-8.02A1 1 0 0 0 23 4H7z"/></svg>
+              Læg i kurv
+            </button>
+          </div>
+        </div>
+      </article>
+
+<article class="product-card" data-id="vivi-maki" data-title="MysteryPop4" data-price="1999">
+        <img class="product-img" src="assets/menu-MysteryPop4.jpg" alt="MysteryPop4">
+        <div class="product-body">
+          <h3 class="product-title">MysteryPop4 (50 stk)</h3>
+          <p class="product-desc"><b>Maki:</b> 4 alaska ura, 4 california ura, 4 spicy tun, 5 salmon futo</p>
+          <div class="product-footer">
+            <div class="price">1999,00 Kr</div>
+            <button class="add-btn" type="button" onclick="addFromCard(this)">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M7 4h-2l-1 2h2l3.6 7.59-1.35 2.44A2.003 2.003 0 0 0 10 20h10v-2H10l1.1-2h7.45a2 2 0 0 0 1.82-1.18l3.58-8.02A1 1 0 0 0 23 4H7z"/></svg>
+              Læg i kurv
+            </button>
+          </div>
+        </div>
+      </article>
+      <!-- tilføj flere kort ved at kopiere <article>… -->
+    </div>
+  </main>
+
+  <!-- KURV (modal) -->
+  <div class="cart-modal" id="cartModal" aria-hidden="true">
+    <div class="cart-panel" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+      <div class="cart-head">
+        <h2 id="cartTitle" style="margin:0">Din kurv</h2>
+        <button class="btn btn-secondary" type="button" onclick="closeCart()">Luk</button>
+      </div>
+
+      <div id="cartItems" class="cart-items"></div>
+
+      <div class="contact-mini">
+        <input id="cName" type="text" placeholder="Navn">
+        <input id="cEmail" type="email" placeholder="E-mail">
+        <input id="cPhone" type="tel" placeholder="Telefon (valgfri)">
+      </div>
+
+      <div class="cart-foot">
+        <div><b>Total:</b> <span id="cartTotalBig">0,00 kr</span> <span class="muted">(varer: <span id="cartCountBig">0</span>)</span></div>
+        <div class="btns">
+          <button class="btn btn-danger" type="button" onclick="clearCart()">Tøm kurv</button>
+          <button class="btn btn-primary" type="button" onclick="sendOrder()">Send bestilling</button>
+        </div>
+      </div>
+      <p class="muted" style="margin:8px 0 0">Bestillingen sendes via din mail-app (du kan redigere inden afsendelse).</p>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">© <span id="year"></span> NFCMedia</div>
+  </footer>
+
+  <script>
+  // ---------- Konfiguration ----------
+  const ORDER_EMAIL = "mysterypops3@gmail.com"; // skift til din mail
+  const CURRENCY = new Intl.NumberFormat('da-DK',{style:'currency',currency:'DKK'});
+  const LS_KEY = "mp_cart";
+
+  // ---------- Utils ----------
+  const qs = (s, el=document) => el.querySelector(s);
+  const qsa = (s, el=document) => [...el.querySelectorAll(s)];
+  const fmt = v => CURRENCY.format(v);
+
+  // ---------- Kurv (state) ----------
+  let cart = loadCart();
+
+  function loadCart(){
+    try{ return JSON.parse(localStorage.getItem(LS_KEY)) || {}; }catch(e){ return {}; }
+  }
+  function saveCart(){ localStorage.setItem(LS_KEY, JSON.stringify(cart)); }
+  function countCart(){ return Object.values(cart).reduce((n,i)=>n+i.qty,0); }
+  function totalCart(){ return Object.values(cart).reduce((s,i)=>s+i.qty*i.price,0); }
+
+  function addItem(id, title, price, qty=1){
+    if(!cart[id]) cart[id] = {id, title, price, qty:0};
+    cart[id].qty += qty;
+    saveCart(); renderCartBadges();
+  }
+
+  function setQty(id, qty){
+    if (qty<=0){ delete cart[id]; } else { cart[id].qty = qty; }
+    saveCart(); renderCart(); renderCartBadges();
+  }
+
+  function clearCart(){ cart = {}; saveCart(); renderCart(); renderCartBadges(); }
+
+  // ---------- UI handling ----------
+  function addFromCard(btn){
+    const card = btn.closest('.product-card');
+    addItem(card.dataset.id, card.dataset.title, Number(card.dataset.price));
+    btn.blur();
+    openCart(); // vis kurv når man lægger i (kan skifte til at blive på siden)
+  }
+
+  function renderCartBadges(){
+    qs('#cartCount').textContent = countCart();
+    qs('#cartTotal').textContent = fmt(totalCart());
+    qs('#cartCountBig').textContent = countCart();
+    qs('#cartTotalBig').textContent = fmt(totalCart());
+  }
+
+  function renderCart(){
+    const wrap = qs('#cartItems');
+    wrap.innerHTML = '';
+    const items = Object.values(cart);
+    if(!items.length){
+      wrap.innerHTML = '<div class="empty">Din kurv er tom.</div>';
+      return;
+    }
+    items.forEach(item=>{
+      const row = document.createElement('div');
+      row.className = 'cart-row';
+      row.innerHTML = `
+        <div><strong>${item.title}</strong></div>
+        <div>${fmt(item.price)}</div>
+        <div class="qty">
+          <button type="button" aria-label="Minus" onclick="setQty('${item.id}', ${item.qty-1})">−</button>
+          <input type="number" min="0" value="${item.qty}" onchange="setQty('${item.id}', Number(this.value))">
+          <button type="button" aria-label="Plus" onclick="setQty('${item.id}', ${item.qty+1})">+</button>
+        </div>
+        <div><b>${fmt(item.price*item.qty)}</b></div>
+      `;
+      wrap.appendChild(row);
+    });
+  }
+
+  function openCart(){ renderCart(); renderCartBadges(); qs('#cartModal').classList.add('is-open'); qs('#cartModal').setAttribute('aria-hidden','false'); }
+  function closeCart(){ qs('#cartModal').classList.remove('is-open'); qs('#cartModal').setAttribute('aria-hidden','true'); }
+
+  function buildOrderText(){
+    const lines = [];
+    lines.push("BESTILLING");
+    lines.push("------------------------------");
+    Object.values(cart).forEach(i => lines.push(`${i.title} x ${i.qty}  —  ${fmt(i.price*i.qty)}`));
+    lines.push("------------------------------");
+    lines.push(`Total: ${fmt(totalCart())}`);
+    lines.push("");
+    const n = qs('#cName').value?.trim() || "";
+    const em= qs('#cEmail').value?.trim() || "";
+    const ph= qs('#cPhone').value?.trim() || "";
+    if(n)  lines.push(`Navn: ${n}`);
+    if(em) lines.push(`E-mail: ${em}`);
+    if(ph) lines.push(`Telefon: ${ph}`);
+    lines.push("");
+    lines.push("Sendt fra mysterypops.dk/bestil");
+    return lines.join("\n");
+  }
+
+  function sendOrder(){
+    if(!Object.keys(cart).length){ alert("Kurven er tom."); return; }
+    const subject = encodeURIComponent("Bestilling");
+    const body = encodeURIComponent(buildOrderText());
+    window.location.href = `mailto:${ORDER_EMAIL}?subject=${subject}&body=${body}`;
+  }
+
+  // init
+  document.getElementById('year').textContent = new Date().getFullYear();
+  renderCartBadges();
+  </script>
+</body>
+</html>
