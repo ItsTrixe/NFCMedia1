@@ -23,11 +23,18 @@
 
   <!-- HERO: næsten fuld skærm, lokal video baggrund -->
 <section class="hero">
-  <img src="assets/hero.jpg" alt="MysteryPops hero" class="hero-img" />
+  <picture>
+    <!-- Mobilbillede -->
+    <source media="(max-width: 768px)" srcset="assets/hero-mobile.jpg">
+    <!-- Desktopbillede -->
+    <img src="assets/hero.jpg" alt="MysteryPops hero" class="hero-img">
+  </picture>
+
   <div class="hero-overlay">
-    <!-- din tekst/knapper -->
+    <h1>MYSTERYPOPS</h1>
   </div>
 </section>
+
 
   <main class="container">
     <section class="about">
@@ -80,4 +87,5 @@ Vi håber at i vil støtte os og vi kan give lidt til den søde tand🤍</p>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>
+
 
